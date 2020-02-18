@@ -21,7 +21,7 @@ class Navbar extends React.Component {
         let { currentUser } = this.props;
             return (
                 <div>
-                    hi
+                    <Link to="/">nav placeholder</Link>
                 </div>
             )
         }
