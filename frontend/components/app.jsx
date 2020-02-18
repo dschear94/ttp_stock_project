@@ -8,11 +8,12 @@ import {
     HashRouter
 } from 'react-router-dom';
 
+import NavBarContainer from "./nav/nav_bar_container";
+
 const App = () => {
     return (
     <div>
-        {/* <Route path="/"><NavbarContainer /></Route> */}
-        hi
+        <NavBarContainer />
     </div>
 )};
 
