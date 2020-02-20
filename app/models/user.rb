@@ -15,15 +15,10 @@ class User < ApplicationRecord
     through: :transactions,
     source: :stock
 
-    def self.find_by_credentials(username, password)
-        user = User.find_by(username: username) || User.find_by(email: username)
+    def self.find_by_credentials(email, password)
+        user = User.find_by(email: email)
         return nil unless user && user.is_password?(password)
         user
-    end
-
-    def self.find_by_entry(entry)
-        user = User.find_by(username: entry) || User.find_by(email: entry)
-        return user ? user : nil
     end
   
   def password=(password)
