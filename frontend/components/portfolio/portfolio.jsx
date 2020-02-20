@@ -5,10 +5,12 @@ class Portfolio extends React.Component {
         super(props);
 
         this.state = {
+            userId: this.props.userId,
             ticker: "",
             currentPrice: "$0.00",
             balance: this.props.balance,
             quantity: 0,
+            time: null,
             errors: this.props.errors
         }
 
@@ -18,7 +20,10 @@ class Portfolio extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.latestPrice !== prevProps.latestPrice) {
-            this.setState({ currentPrice: this.props.latestPrice.toFixed(2) })
+            this.setState({ 
+                currentPrice: this.props.latestPrice.toFixed(2),
+                time: Date.now()
+            })
         }
     }
 
@@ -28,8 +33,21 @@ class Portfolio extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault()
+
+        let date = new Date().toLocaleDateString();
+        date = date.split("/");
+        let year = date.pop();
+        date.unshift(year);
+        date = date.join("-");
+
         if (this.state.balance > (this.state.quantity * this.state.currentPrice)) {
-            this.props.processForm(this.state);
+            this.props.processForm({
+                user_id: this.state.userId,
+                stock_id: this.state.ticker.toUpperCase(),
+                quantity: this.state.quantity,
+                price: this.state.currentPrice,
+                transaction_time: date
+            });
         } else {
             this.setState({ errors: "not enough funds!" })
         }

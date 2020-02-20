@@ -11,7 +11,9 @@ class Api::TransactionsController < ApplicationController
   end
 
   def create
+    @stock = Stock.find_by(ticker: params["transaction"]["stock_id"]) || Stock.create!(ticker: params["transaction"]["stock_id"])
     @transaction = Transaction.new(transaction_params)
+
 
     if @transaction.save
     else
@@ -33,7 +35,8 @@ class Api::TransactionsController < ApplicationController
           :user_id, 
           :stock_id, 
           :quantity, 
-          :price
+          :price,
+          :transaction_time
         )
     end
 

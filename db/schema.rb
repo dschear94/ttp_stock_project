@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_18_202259) do
+ActiveRecord::Schema.define(version: 2020_02_20_183521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "stocks", force: :cascade do |t|
-    t.string "name", null: false
     t.string "ticker", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -24,7 +23,7 @@ ActiveRecord::Schema.define(version: 2020_02_18_202259) do
 
   create_table "transactions", force: :cascade do |t|
     t.integer "quantity", null: false
-    t.integer "stock_id", null: false
+    t.string "stock_id", null: false
     t.integer "user_id", null: false
     t.decimal "price", null: false
     t.string "transaction_time"
@@ -41,6 +40,7 @@ ActiveRecord::Schema.define(version: 2020_02_18_202259) do
     t.string "session_token", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
