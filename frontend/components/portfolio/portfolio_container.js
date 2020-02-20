@@ -5,8 +5,9 @@ import { getLastPrices } from '../../actions/stock_actions';
 const mapState = (state, ownprops) => {
     let errors;
     const price = state.entities.stocks.latestPrice;
-    debugger
     const balance = state.entities.user.balance;
+
+    console.log(price);
 
     return {
         latestPrice: price,
@@ -18,7 +19,7 @@ const mapState = (state, ownprops) => {
 
 const mapDispatch = dispatch => {
     return {
-        processForm: user => dispatch(login(user)),
+        processForm: formData => dispatch(login(formData)),
         checkPrice: ticker => dispatch(getLastPrices([ticker]))
     }
 }

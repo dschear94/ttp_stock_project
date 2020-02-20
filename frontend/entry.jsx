@@ -9,15 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const preloadedState = {
             session: { id: window.currentUser.id },
             entities: {
-                users: { [window.currentUser.id]: window.currentUser },
-                // likes: window.currentUserLikes,
-                // follows: window.currentUserFollows,
+                user: window.currentUser ,
             }
         };
         store = configureStore(preloadedState);
         delete window.currentUser;
-        // delete window.currentUserLikes;
-        // delete window.currentUserFollows;
     } else {
         store = configureStore();
     }

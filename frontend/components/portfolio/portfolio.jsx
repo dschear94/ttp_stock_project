@@ -4,10 +4,11 @@ class Portfolio extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log(this.props.latestPrice)
+
         this.state = {
             ticker: "",
-            // currentPrice: props.latestPrice || null,
-            projectedCost: 0,
+            currentPrice: isNaN(this.props.latestPrice) ? 0.00 : this.props.latestPrice.toFixed(2),
             balance: this.props.balance,
             quantity: 0
         }
@@ -16,28 +17,31 @@ class Portfolio extends React.Component {
         this.handlePriceCheck = this.handlePriceCheck.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.latestPrice !== prevProps.latestPrice) {
+            this.setState({ currentPrice: this.props.latestPrice.toFixed(2) })
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault()
-        this.props.processForm(this.state)
+        this.props.processForm(this.state);
     }
 
     handlePriceCheck(e) {
         e.preventDefault()
-        this.props.checkPrice(this.state.ticker)
+        this.props.checkPrice(this.state.ticker);
     }
 
     update(field) {
         return (e) => (
             this.setState({ [field]: e.target.value })
         )
-
     }
 
     render() {
         let errors;
-        const currentPrice = isNaN(this.props.latestPrice) ? 0.00 : this.props.latestPrice.toFixed(2);
-        const projectedCost = (currentPrice * this.state.quantity).toFixed(2);
-
+        const { currentPrice, quantity } = this.state;
 
 
 
@@ -69,7 +73,7 @@ class Portfolio extends React.Component {
                             <div className='label-text'>Quantity</div>
                             <input className="input" type="number" min="0" step="1" value={this.state.quantity} onChange={this.update("quantity")} required />
                         </label>
-                        Projected Cost: ${projectedCost}
+                        Projected Cost: ${(currentPrice * quantity).toFixed(2)}
                         {errors}
                         <div className='stock-submit-buttons'>
                             <input className="stock-submit-button" type="submit" value="Submit" />
