@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
 
   def show
-    @user = User.find_by(email: params[:id])
+    @user = current_user
 
     if @user
         render "api/users/show"

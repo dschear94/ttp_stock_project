@@ -1,4 +1,5 @@
 import React from "react";
+import StockItem from './stock_item';
 
 class Portfolio extends React.Component {
     constructor(props) {
@@ -19,12 +20,14 @@ class Portfolio extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        debugger
         if (this.props.latestPrice !== prevProps.latestPrice) {
             this.setState({ 
                 currentPrice: this.props.latestPrice.toFixed(2),
                 time: Date.now()
             })
         }
+
     }
 
     componentWillUnmount() {
@@ -47,7 +50,7 @@ class Portfolio extends React.Component {
                 quantity: this.state.quantity,
                 price: this.state.currentPrice,
                 transaction_time: date
-            });
+            }).then(this.props.getUpdatedUser());
         } else {
             this.setState({ errors: "not enough funds!" })
         }
@@ -67,6 +70,30 @@ class Portfolio extends React.Component {
     render() {
         let errors;
 
+        let portfolio = {};
+
+        this.props.transactions.forEach(transaction => {
+            let ticker = transaction.stock_id;
+            let quantity = parseInt(transaction.quantity);
+            if (ticker in portfolio) {
+                portfolio[ticker] += quantity;
+            } else {
+                portfolio[ticker] = quantity;
+            }
+        })
+
+        const tickers = Object.keys(portfolio);
+        // console.log(tickers);
+
+        const stockInfo = tickers.map(ticker => {
+        return (<StockItem
+            key={ticker}
+            ticker={ticker}
+            quantity={portfolio[ticker]}
+            checkPrice={this.props.checkPrice}
+        />)}
+        );
+
         const { currentPrice, quantity } = this.state;
 
         if (this.state.errors) {
@@ -80,6 +107,12 @@ class Portfolio extends React.Component {
         return (
 
             <div className='stock-submit-page'>
+                <div>
+                    <h1>Portfolio</h1>
+                    <div className='portfolio-container'>
+                        {stockInfo}
+                    </div>
+                </div>
                 <main className='stock-submit-form-container'>
                     <form onSubmit={this.handleSubmit} className='stock-submit-form'>
 

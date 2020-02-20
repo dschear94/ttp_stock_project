@@ -16,7 +16,12 @@ class Api::TransactionsController < ApplicationController
 
 
     if @transaction.save
+      new_balance = current_user.balance - (@transaction.price * @transaction.quantity)
+      current_user.update_attributes(balance: new_balance)
+      render "/api/transactions/show"
     else
+      render json: ["Invalid transaction"], status: 406
+
     end
 
   end

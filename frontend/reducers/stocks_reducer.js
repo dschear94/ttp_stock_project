@@ -4,6 +4,7 @@ const stocksReducer = (state = {}, action) => {
     Object.freeze(state);
     switch (action.type) {
         case RECEIVE_LAST_PRICES:
+            debugger
             return action;
         default:
             return state;

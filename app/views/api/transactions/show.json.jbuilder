@@ -1,1 +1,1 @@
-json.partial! "transactions/transaction", transaction: @transaction
+json.extract! @transaction, :id, :quantity, :stock_id, :user_id, :price, :transaction_time

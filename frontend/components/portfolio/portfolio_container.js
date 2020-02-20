@@ -2,16 +2,19 @@ import { connect } from 'react-redux';
 import Portfolio from './portfolio';
 import { getLastPrices, clearPrices } from '../../actions/stock_actions';
 import { createTransaction } from '../../actions/transaction_actions';
+import { getUpdatedUser } from '../../actions/user_actions'
 
 const mapState = (state, ownprops) => {
     let errors;
-    const price = state.entities.latestPrice;
+    const stockInfo = state.entities.latestPrice;
     const balance = state.entities.user.balance;
     const userId = state.entities.user.id;
+    const transactions = state.entities.user.transactions;
 
     return {
         userId: userId,
-        latestPrice: price,
+        transactions: transactions,
+        stockInfo: stockInfo,
         balance: balance,
         errors
     }
@@ -23,7 +26,7 @@ const mapDispatch = dispatch => {
         processForm: formData => dispatch(createTransaction(formData)),
         checkPrice: ticker => dispatch(getLastPrices([ticker])),
         clearPrices: () => dispatch(clearPrices()),
-
+        getUpdatedUser: () => dispatch(getUpdatedUser())
     }
 }
 
