@@ -20,14 +20,18 @@ class Portfolio extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        debugger
-        if (this.props.latestPrice !== prevProps.latestPrice) {
-            this.setState({ 
-                currentPrice: this.props.latestPrice.toFixed(2),
-                time: Date.now()
-            })
-        }
 
+
+        // if (ticker.toUpperCase() in stockInfo) {
+        //     // debugger
+        //     if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice !== prevProps.stockInfo[ticker.toUpperCase()].latestPrice) {
+        //         debugger
+        //         this.setState({
+        //             currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
+        //             time: Date.now()
+        //         })
+        //     }
+        // }
     }
 
     componentWillUnmount() {
@@ -57,8 +61,14 @@ class Portfolio extends React.Component {
     }
 
     handlePriceCheck(e) {
+        let { stockInfo } = this.props;
+        let { ticker } = this.state;
+        
         e.preventDefault()
-        this.props.checkPrice(this.state.ticker);
+        this.props.checkPrice(this.state.ticker).then(this.setState({
+            currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
+            time: Date.now()
+        }));
     }
 
     update(field) {

@@ -6,7 +6,7 @@ import { getUpdatedUser } from '../../actions/user_actions'
 
 const mapState = (state, ownprops) => {
     let errors;
-    const stockInfo = state.entities.latestPrice;
+    const stockInfo = state.entities.stocks;
     const balance = state.entities.user.balance;
     const userId = state.entities.user.id;
     const transactions = state.entities.user.transactions;
