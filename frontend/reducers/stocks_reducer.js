@@ -4,7 +4,7 @@ const stocksReducer = (state = {}, action) => {
     Object.freeze(state);
     switch (action.type) {
         case RECEIVE_LAST_PRICES:
-            return { latestPrice: action.prices[0] };
+            return action;
         default:
             return state;
     }

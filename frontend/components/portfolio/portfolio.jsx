@@ -4,13 +4,12 @@ class Portfolio extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log(this.props.latestPrice)
-
         this.state = {
             ticker: "",
-            currentPrice: isNaN(this.props.latestPrice) ? 0.00 : this.props.latestPrice.toFixed(2),
+            currentPrice: "$0.00",
             balance: this.props.balance,
-            quantity: 0
+            quantity: 0,
+            errors: this.props.errors
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,9 +22,17 @@ class Portfolio extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.clearPrices();
+    }
+
     handleSubmit(e) {
         e.preventDefault()
-        this.props.processForm(this.state);
+        if (this.state.balance > (this.state.quantity * this.state.currentPrice)) {
+            this.props.processForm(this.state);
+        } else {
+            this.setState({ errors: "not enough funds!" })
+        }
     }
 
     handlePriceCheck(e) {
@@ -41,17 +48,16 @@ class Portfolio extends React.Component {
 
     render() {
         let errors;
+
         const { currentPrice, quantity } = this.state;
 
-
-
-        // if (this.props.errors.length !== 0) {
-        //     errors = (
-        //         <h3 className='stock-submit-errors'> ERROR!  {this.props.errors}</h3>
-        //     )
-        // } else {
-        //     errors = null
-        // }
+        if (this.state.errors) {
+            errors = (
+                <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
+            )
+        } else {
+            errors = null
+        }
 
         return (
 
@@ -73,7 +79,10 @@ class Portfolio extends React.Component {
                             <div className='label-text'>Quantity</div>
                             <input className="input" type="number" min="0" step="1" value={this.state.quantity} onChange={this.update("quantity")} required />
                         </label>
-                        Projected Cost: ${(currentPrice * quantity).toFixed(2)}
+                        Projected Cost: ${
+                            isNaN(currentPrice * quantity) ? "0.00" :
+                            (currentPrice * quantity).toFixed(2)
+                        }
                         {errors}
                         <div className='stock-submit-buttons'>
                             <input className="stock-submit-button" type="submit" value="Submit" />
