@@ -6,6 +6,7 @@ class SignupForm extends React.Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
+            name: "",
             email: "",
             password: ""
         };
@@ -28,16 +29,29 @@ class SignupForm extends React.Component {
         this.props.clearErrors();
     }
     render() {
+        let nameError = null;
         let emailError = null;
         let passwordError = null;
+        let nameClassError;
         let emailClassError;
         let passwordClassError;
-        const errorTitles = [ "Email", "Password"];
+        const errorTitles = [ "Name", "Email", "Password"];
 
         this.props.errors.forEach(error => {
             let word = error.split(" ")[0];
             if (errorTitles.includes(word)) {
                 switch (word) {
+                    case "Name":
+                        nameClassError = "errored";
+                        nameError = (
+                            <div className="error-container">
+                                <div className="signup-error">
+                                    {"Please enter your name."}
+                                </div>{" "}
+                                <div className="arrow"></div>
+                            </div>
+                        );
+                        return;
                     case "Email":
                         emailClassError = "errored";
                         emailError = (
@@ -71,6 +85,17 @@ class SignupForm extends React.Component {
                         Signup
                     </div>
                     <div className="signup-component">
+                        <label>
+                            <input
+                                onClick={this.handleClick}
+                                className={`signup-input ${nameClassError}`}
+                                type="text"
+                                value={this.state.name}
+                                onChange={this.update("name")}
+                                placeholder="name"
+                            />
+                            {nameError}
+                        </label>
                         <label>
                             <input
                                 onClick={this.handleClick}

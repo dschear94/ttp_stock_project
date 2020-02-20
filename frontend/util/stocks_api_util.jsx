@@ -1,10 +1,10 @@
-export const iexKey = pk_f84efb5b1cb949edab9138d663ce62b3;
+export const iexKey = "pk_f84efb5b1cb949edab9138d663ce62b3";
 
 
 export const getLastPrice = (ticker) => {
     return $.ajax({
         method: "GET",
-        url: `https://sandbox.iexapis.com/stable/stock/${ticker}/price/?token=${iexKey}`
+        url: `https://cloud.iexapis.com/stable/stock/${ticker}/quote/latestPrice?token=${iexKey}`
     });
 }
 

@@ -20,7 +20,7 @@ class LoginForm extends React.Component {
     demoLogin(e) {
         e.preventDefault()
         this.props.processForm({
-            email: 'demo',
+            email: 'demo@gmail.com',
             password: 'password123'
         })
 
