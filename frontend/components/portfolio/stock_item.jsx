@@ -17,7 +17,7 @@ class StockItem extends React.Component {
 
         return (
             <div>
-                <h2>{ticker} ({name}) - {quantity} shares @ ${latestPrice} each totaling ${latestValue}</h2>
+                <h2>{ticker} ({name}) - {quantity} share{quantity === 1 ? null : "s"} @ ${latestPrice} each totaling ${latestValue}</h2>
             </div>
         )
     }

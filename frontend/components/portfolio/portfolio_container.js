@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Portfolio from './portfolio';
 import { getLastPrices, clearPrices } from '../../actions/stock_actions';
-import { getLastPrice } from '../../actions/latest_price_actions'
+import { getLastPrice, clearPrice } from '../../actions/latest_price_actions'
 import { createTransaction } from '../../actions/transaction_actions';
 import { getUpdatedUser } from '../../actions/user_actions';
 import { clearErrors } from '../../actions/session_actions'
@@ -33,6 +33,7 @@ const mapDispatch = dispatch => {
         checkPrices: tickers => dispatch(getLastPrices(tickers)),
         checkPrice: ticker => dispatch(getLastPrice(ticker)),
         clearPrices: () => dispatch(clearPrices()),
+        clearPrice: () => dispatch(clearPrice()),
         clearErrors: () => dispatch(clearErrors()),
         getUpdatedUser: () => dispatch(getUpdatedUser())
     }

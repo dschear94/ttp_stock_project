@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class LoginForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault()
-        this.props.processForm(this.state)
+        this.props.processForm(this.state);
     }
 
     demoLogin(e) {
@@ -37,7 +38,7 @@ class LoginForm extends React.Component {
         let errors;
         if (this.props.errors.length !== 0) {
             errors = (
-                <h3 className='login-errors'> ERROR!  {this.props.errors}</h3>
+                <h3 className='login-errors'>{this.props.errors}</h3>
             )
         } else {
             errors = null
@@ -75,4 +76,4 @@ class LoginForm extends React.Component {
 
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);

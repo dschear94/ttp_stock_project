@@ -6,18 +6,10 @@ class Portfolio extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            errors: this.props.errors
-        }
-
         this.handlePriceCheck = this.handlePriceCheck.bind(this);
     }
 
     componentDidMount() {
-        
-        const { stockInfo, checkPrices, balance } = this.props;
-        const { currentPrice, quantity } = this.state;
-
 
         // iterate through user's transactions to determine stock holdings
 
@@ -32,26 +24,38 @@ class Portfolio extends React.Component {
                 portfolio[ticker] = quantity;
             }
         });
+
+
+        // get prices from iexAPI
         
         this.props.checkPrices(Object.keys(portfolio))
 
     }
 
+    componentDidUpdate(prevProps) {
 
-    // componentDidUpdate(prevProps) {
+        if (this.props.transactions.length !== prevProps.transactions.length) {
 
-    //     let { stockInfo } = this.props;
-    //     let { ticker } = this.state;
+            // iterate through user's transactions to determine stock holdings
 
-    //     if (ticker.toUpperCase() in stockInfo) {
-    //         if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2) !== this.state.currentPrice) {
-    //             this.setState({
-    //                 currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
-    //                 time: Date.now()
-    //             })
-    //         }
-    //     }
-    // }
+            let portfolio = {};
+
+            this.props.transactions.forEach(transaction => {
+                let ticker = transaction.stock_id;
+                let quantity = parseInt(transaction.quantity);
+                if (ticker in portfolio) {
+                    portfolio[ticker] += quantity;
+                } else {
+                    portfolio[ticker] = quantity;
+                }
+            });
+
+
+            // get prices from iexAPI
+
+            this.props.checkPrices(Object.keys(portfolio))
+        }
+    }
 
     componentWillUnmount() {
         this.props.clearPrices();
@@ -70,20 +74,11 @@ class Portfolio extends React.Component {
 
     render() {
 
-        // handle errors
-
-        let errorHandling;
-        this.state.errors ? 
-        errorHandling = <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
-        : errorHandling = null
-
-
         // destructure vars from props and state for ease of use
 
-        const { stockInfo, checkPrice, latestPrice, checkPrices, clearPrices, clearErrors, balance, processForm, userId, errors } = this.props;
-        const { currentPrice, quantity } = this.state;
+        const { stockInfo, checkPrice, latestPrice, checkPrices, clearPrices, clearPrice, clearErrors, balance, processForm, userId, errors } = this.props;
 
-
+        
         // iterate through user's transactions to determine stock holdings
 
         let portfolio = {};
@@ -119,7 +114,7 @@ class Portfolio extends React.Component {
         tickers.forEach(ticker => {
             let quantity = portfolio[ticker];
             stockInfo[ticker] !== undefined ? 
-                portfolioValue += parseFloat((quantity * stockInfo[ticker].latestPrice).toFixed(2))
+                portfolioValue += parseFloat((quantity * (stockInfo[ticker].latestPrice).toFixed(2)))
             : 0;
         })
 
@@ -137,6 +132,7 @@ class Portfolio extends React.Component {
                     stockInfo={stockInfo} 
                     checkPrice={checkPrice}
                     clearPrices={clearPrices} 
+                    clearPrice={clearPrice} 
                     processForm={processForm}
                     latestPrice={latestPrice}
                     userId={userId}

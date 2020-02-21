@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
 
 class TransactionForm extends React.Component {
     constructor(props) {
@@ -11,7 +12,6 @@ class TransactionForm extends React.Component {
             balance: this.props.balance,
             quantity: 0,
             time: null,
-            errors: this.props.errors
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,18 +20,6 @@ class TransactionForm extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-
-        // let { stockInfo } = this.props;
-        // let { ticker } = this.state;
-
-        // if (ticker.toUpperCase() in stockInfo) {
-        //     if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2) !== this.state.currentPrice) {
-                // this.setState({
-                //     currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
-                //     time: Date.now()
-                // })
-        //     }
-        // }
         if (this.props.latestPrice.toFixed(2) !== this.state.currentPrice) {
             this.setState({
                 currentPrice: this.props.latestPrice.toFixed(2),
@@ -41,11 +29,13 @@ class TransactionForm extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.clearPrices();
+        this.props.clearPrice();
     }
 
     handleSubmit(e) {
         e.preventDefault()
+
+        // create date string
 
         let date = new Date().toLocaleDateString();
         date = date.split("/");
@@ -53,17 +43,17 @@ class TransactionForm extends React.Component {
         date.unshift(year);
         date = date.join("-");
 
-        // if (this.state.balance > (this.state.quantity * this.state.currentPrice)) {
-            this.props.processForm({
-                user_id: this.props.userId,
-                stock_id: this.state.ticker.toUpperCase(),
-                quantity: this.state.quantity,
-                price: this.state.currentPrice,
-                transaction_time: date
-            })
-        // } else {
-        //     this.setState({ errors: "not enough funds." })
-        // }
+        
+        // send form data to backend
+
+        this.props.processForm({
+            user_id: this.props.userId,
+            stock_id: this.state.ticker.toUpperCase(),
+            quantity: this.state.quantity,
+            price: this.state.currentPrice,
+            transaction_time: date
+        }).then(() => this.props.history.push("/transactions"))
+
     }
 
     handlePriceCheck(e) {
@@ -87,10 +77,8 @@ class TransactionForm extends React.Component {
 
         let errors;
         this.props.errors.length !== 0 ?
-            errors = <h3 className='stock-submit-errors'> ERROR!  {this.props.errors}</h3>
-            : this.state.errors.length !== 0 ?
-                errors = <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
-                : errors = null
+            errors = <h3 className='stock-submit-errors'>{this.props.errors}</h3>
+            : errors = null
 
 
         // destructure vars for ease of use
@@ -136,4 +124,4 @@ class TransactionForm extends React.Component {
 
 }
 
-export default TransactionForm;
+export default withRouter(TransactionForm);

@@ -68,7 +68,7 @@ class SignupForm extends React.Component {
                         passwordError = (
                             <div className="error-container">
                                 <div className="signup-error">
-                                    {"Your password must be at least 10 characters."}
+                                    {"Your password must be at least 6 characters."}
                                 </div>
                                 <div className="arrow"></div>
                             </div>
