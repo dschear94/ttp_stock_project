@@ -5,6 +5,10 @@ class Transactions extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        
+    }
+
     render() {
         const { transactions } = this.props;
 

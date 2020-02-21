@@ -121,9 +121,10 @@ class Portfolio extends React.Component {
         return (
 
                 <div className="portfolio-page">
-                    <h1>Portfolio (${portfolioValue.toFixed(2)})</h1>
 
                     <div className='portfolio-container'>
+                        <h1 className="portfolio-header">Portfolio (${portfolioValue.toFixed(2)})</h1>
+                        <br/>
                         {portfolioItems}
                     </div>
 

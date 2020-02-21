@@ -1,0 +1,29 @@
+.stock-submit-form-container {
+    width: 50%;
+    float: right;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.portfolio-container {
+    width: 50%;
+    float: left;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.portfolio-header {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.stock-submit-header {
+    font-size: 30px;
+    margin-bottom: 20px;
+}

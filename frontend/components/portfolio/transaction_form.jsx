@@ -88,13 +88,10 @@ class TransactionForm extends React.Component {
 
 
         return (
-
-            <div className='stock-submit-form'>
                 <main className='stock-submit-form-container'>
                     <form onSubmit={this.handleSubmit} className='stock-submit-form'>
-
-                        <h1 className='stock-submit-heading'>Buy Stocks</h1>
-                        <h3>CASH - ${balance.toFixed(2)}</h3>
+                        <h1 className='stock-submit-header'>Buy Stocks</h1>
+                        <h2>CASH - ${balance.toFixed(2)}</h2>
                         <label className='stock-submit-label'>
                             <div className='label-text'>Ticker</div>
                             <input className='input' type="text" value={this.state.ticker} onClick={this.handleClick} onChange={this.update("ticker")} required />
@@ -117,8 +114,6 @@ class TransactionForm extends React.Component {
                         </div>
                     </form>
                 </main>
-            </div>
-
         )
     }
 

@@ -16,8 +16,8 @@ class StockItem extends React.Component {
         const latestValue = (latestPrice * quantity).toFixed(2);
 
         return (
-            <div>
-                <h2>{ticker} ({name}) - {quantity} share{quantity === 1 ? null : "s"} @ ${latestPrice} each totaling ${latestValue}</h2>
+            <div style={{color: latestPrice > prevPrice ? "green" : "red"}}>
+                <h2>{ticker} ({name}) - {quantity} share{quantity === 1 ? null : "s"} ${latestValue}</h2>
             </div>
         )
     }
