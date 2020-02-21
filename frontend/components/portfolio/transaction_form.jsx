@@ -35,6 +35,8 @@ class TransactionForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
 
+
+
         // create date string
 
         let date = new Date().toLocaleDateString();
@@ -91,27 +93,31 @@ class TransactionForm extends React.Component {
                 <main className='stock-submit-form-container'>
                     <form onSubmit={this.handleSubmit} className='stock-submit-form'>
                         <h1 className='stock-submit-header'>Buy Stocks</h1>
-                        <h2>CASH - ${balance.toFixed(2)}</h2>
+                        <h2 className='stock-sub-header-2'>CASH - ${balance.toFixed(2)}</h2>
+                        <br/>
                         <label className='stock-submit-label'>
-                            <div className='label-text'>Ticker</div>
-                            <input className='input' type="text" value={this.state.ticker} onClick={this.handleClick} onChange={this.update("ticker")} required />
+                        <span className='stock-submit-text'>Ticker: </span><input className='input' type="text" value={this.state.ticker} onClick={this.handleClick} onChange={this.update("ticker")} required />
                         </label>
-                        <div className='stock-submit-buttons'>
-                            <input className="stock-submit-button" type="submit" value="Get Latest Quote" onClick={this.handlePriceCheck} />
+                        <br/>
+                        <input className="stock-submit-button" type="submit" value="Get Latest Quote" onClick={this.handlePriceCheck} />
+                        <br/>
+                        <div className="quote">
+                            Price: ${currentPrice}
                         </div>
-                        Price: ${currentPrice}
+                        <br/>
                         <label className='stock-submit-label'>
-                            <div className='label-text'>Quantity</div>
-                            <input className="input" type="number" min="0" step="1" value={this.state.quantity} onClick={this.handleClick} onChange={this.update("quantity")} required />
+                        <span className='stock-submit-text'>Quantity:</span><input className="input" type="number" min="0" step="1" value={this.state.quantity} onClick={this.handleClick} onChange={this.update("quantity")} required />
                         </label>
-                        Projected Cost: ${
-                            isNaN(currentPrice * quantity) ? "0.00" :
-                                (currentPrice * quantity).toFixed(2)
-                        }
+                        <br/>
+                        <div className="cost">
+                            Projected Cost: ${
+                                isNaN(currentPrice * quantity) ? "0.00" :
+                                    (currentPrice * quantity).toFixed(2)
+                            }
+                        </div>
+                        <br/>
                         {errors}
-                        <div className='stock-submit-buttons'>
-                            <input className="stock-submit-button" type="submit" value="Submit Order" />
-                        </div>
+                        <input className="stock-submit-button" type="submit" value="Submit Order" />
                     </form>
                 </main>
         )
