@@ -19,8 +19,8 @@ class Navbar extends React.Component {
 
     render() {
         let { currentUser } = this.props;
-        
-        const logout = currentUser ? (
+
+        const logout = currentUser.id ? (
             <button onClick={this.handleLogout}>
                 logout
             </button>
