@@ -16,7 +16,7 @@ class Api::TransactionsController < ApplicationController
 
 
     if @transaction.save
-      new_balance = current_user.balance - (@transaction.price * @transaction.quantity)
+      new_balance = current_user.balance - (@transaction.price * @transaction.quantity).round(2)
       current_user.update_attributes(balance: new_balance)
       render "/api/transactions/show"
     else

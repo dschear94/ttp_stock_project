@@ -11,8 +11,9 @@ import {
 import NavBarContainer from "./nav/nav_bar_container";
 import LoginFormContainer from "./session/login_form_container";
 import SignupFormContainer from "./session/signup_form_container";
-import Splash from "./splash/splash"
-import PortfolioContainer from "./portfolio/portfolio_container"
+import Splash from "./splash/splash";
+import PortfolioContainer from "./portfolio/portfolio_container";
+import TransactionsContainer from "./transactions/transactions_container";
 
 import {
     AuthRoute,
@@ -27,8 +28,8 @@ const App = () => {
         <AuthRoute exact path='/login' component={LoginFormContainer} />
         <AuthRoute exact path='/signup' component={SignupFormContainer} />
         <Switch>
-            <ProtectedRoute path='/' component= {PortfolioContainer}/>
-            {/* <ProtectedRoute exact path='/transactions' component= {}/> */}
+            <ProtectedRoute path='/portfolio' component= {PortfolioContainer}/>
+            <ProtectedRoute exact path='/transactions' component= {TransactionsContainer}/>
         </Switch>
     </div>
 )};

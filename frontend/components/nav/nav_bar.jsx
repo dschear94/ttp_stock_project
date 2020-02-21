@@ -29,6 +29,8 @@ class Navbar extends React.Component {
             return (
                 <div>
                     <Link to="/">nav placeholder</Link>
+                    <NavLink to="/portfolio">Portfolio</NavLink>
+                    <NavLink to="/transactions">Transactions</NavLink>
                     {logout}
                 </div>
             )

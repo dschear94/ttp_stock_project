@@ -114,7 +114,7 @@ class Portfolio extends React.Component {
             <div className='stock-submit-page'>
                 <div>
                     <h1>Portfolio</h1>
-                    <h2>Balance: ${balance}</h2>
+                    <h2>Balance: ${balance.toFixed(2)}</h2>
                     <div className='portfolio-container'>
                         {stockInfo}
                     </div>
@@ -131,7 +131,7 @@ class Portfolio extends React.Component {
                         <div className='stock-submit-buttons'>
                             <input className="stock-submit-button" type="submit" value="Check Price" onClick={this.handlePriceCheck}/>
                         </div>
-                        Price: {currentPrice}
+                        Price: ${currentPrice}
                         <label className='stock-submit-label'>
                             <div className='label-text'>Quantity</div>
                             <input className="input" type="number" min="0" step="1" value={this.state.quantity} onChange={this.update("quantity")} required />
