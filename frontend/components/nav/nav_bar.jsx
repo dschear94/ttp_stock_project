@@ -27,11 +27,15 @@ class Navbar extends React.Component {
         ) : null;
 
             return (
-                <div>
-                    <Link to="/">nav placeholder</Link>
-                    <NavLink to="/portfolio">Portfolio</NavLink>
-                    <NavLink to="/transactions">Transactions</NavLink>
-                    {logout}
+                <div className="nav-container">
+                    <div className="nav-container-left">
+                        <Link to="/">TTP Stock App</Link>
+                    </div>
+                    <div className="nav-container-right">
+                        <NavLink to="/portfolio">Portfolio</NavLink>
+                        <NavLink to="/transactions">Transactions</NavLink>
+                        {logout}
+                    </div>
                 </div>
             )
         }
