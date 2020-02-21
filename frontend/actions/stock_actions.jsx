@@ -4,10 +4,10 @@ export const RECEIVE_HISTORICAL_PRICES = "RECEIVE_HISTORICAL_PRICES";
 export const CLEAR_PRICES = "CLEAR_PRICES";
 
 
-const receiveLastPrices = prices => {
+const receiveLastPrices = stockInfo => {
     return {
         type: RECEIVE_LAST_PRICES,
-        prices
+        stockInfo
     }
 }
 

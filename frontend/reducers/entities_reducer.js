@@ -7,5 +7,5 @@ import latestPrice from './latest_price_reducer';
 export default combineReducers({
     user,
     stocks,
-    // latestPrice
+    latestPrice
 });

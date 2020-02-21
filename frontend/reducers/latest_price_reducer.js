@@ -1,12 +1,12 @@
-import { RECEIVE_LAST_PRICES, CLEAR_PRICES } from "../actions/stock_actions";
+import { RECEIVE_LAST_PRICE, CLEAR_PRICE } from "../actions/latest_price_actions";
 
-const latestPriceReducer = (state = {}, action) => {
+const latestPriceReducer = (state = 0, action) => {
     Object.freeze(state);
     switch (action.type) {
-        case RECEIVE_LAST_PRICES:
-            return action.prices[0];
-        case CLEAR_PRICES:
-            return {};
+        case RECEIVE_LAST_PRICE:
+            return action.stockInfo[0].latestPrice;
+        case CLEAR_PRICE:
+            return 0;
         default:
             return state;
     }

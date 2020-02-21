@@ -20,16 +20,22 @@ class TransactionForm extends React.Component {
 
     componentDidUpdate(prevProps) {
 
-        let { stockInfo } = this.props;
-        let { ticker } = this.state;
+        // let { stockInfo } = this.props;
+        // let { ticker } = this.state;
 
-        if (ticker.toUpperCase() in stockInfo) {
-            if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2) !== this.state.currentPrice) {
-                this.setState({
-                    currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
-                    time: Date.now()
-                })
-            }
+        // if (ticker.toUpperCase() in stockInfo) {
+        //     if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2) !== this.state.currentPrice) {
+                // this.setState({
+                //     currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
+                //     time: Date.now()
+                // })
+        //     }
+        // }
+        if (this.props.latestPrice.toFixed(2) !== this.state.currentPrice) {
+            this.setState({
+                currentPrice: this.props.latestPrice.toFixed(2),
+                time: Date.now()
+            })
         }
     }
 
@@ -61,7 +67,7 @@ class TransactionForm extends React.Component {
 
     handlePriceCheck(e) {
         e.preventDefault()
-        this.props.checkPrices([this.state.ticker])
+        this.props.checkPrice([this.state.ticker])
     }
 
     update(field) {
@@ -90,13 +96,13 @@ class TransactionForm extends React.Component {
                     <form onSubmit={this.handleSubmit} className='stock-submit-form'>
 
                         <h1 className='stock-submit-heading'>Buy Stocks</h1>
-                        <h3>CASH - ${balance}</h3>
+                        <h3>CASH - ${balance.toFixed(2)}</h3>
                         <label className='stock-submit-label'>
                             <div className='label-text'>Ticker</div>
                             <input className='input' type="text" value={this.state.ticker} onChange={this.update("ticker")} required />
                         </label>
                         <div className='stock-submit-buttons'>
-                            <input className="stock-submit-button" type="submit" value="Check Price" onClick={this.handlePriceCheck} />
+                            <input className="stock-submit-button" type="submit" value="Get Latest Quote" onClick={this.handlePriceCheck} />
                         </div>
                         Price: ${currentPrice}
                         <label className='stock-submit-label'>
@@ -109,7 +115,7 @@ class TransactionForm extends React.Component {
                         }
                         {errors}
                         <div className='stock-submit-buttons'>
-                            <input className="stock-submit-button" type="submit" value="Submit" />
+                            <input className="stock-submit-button" type="submit" value="Submit Order" />
                         </div>
                     </form>
                 </main>

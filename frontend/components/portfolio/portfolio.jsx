@@ -35,7 +35,6 @@ class Portfolio extends React.Component {
         
         this.props.checkPrices(Object.keys(portfolio))
 
-
     }
 
 
@@ -81,7 +80,7 @@ class Portfolio extends React.Component {
 
         // destructure vars from props and state for ease of use
 
-        const { stockInfo, checkPrices, balance, processForm, userId } = this.props;
+        const { stockInfo, checkPrice, latestPrice, checkPrices, clearPrices, balance, processForm, userId } = this.props;
         const { currentPrice, quantity } = this.state;
 
 
@@ -127,16 +126,21 @@ class Portfolio extends React.Component {
         return (
 
                 <div className="portfolio-page">
-                    <h1>Portfolio (${portfolioValue})</h1>
+                    <h1>Portfolio (${portfolioValue.toFixed(2)})</h1>
+
                     <div className='portfolio-container'>
                         {portfolioItems}
                     </div>
+
                     <TransactionForm 
                     balance={balance} 
                     stockInfo={stockInfo} 
-                    checkPrices={checkPrices} 
+                    checkPrice={checkPrice}
+                    clearPrices={clearPrices} 
                     processForm={processForm}
+                    latestPrice={latestPrice}
                     userId={userId}/>
+
                 </div>
         )
     }
