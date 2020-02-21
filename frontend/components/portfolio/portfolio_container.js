@@ -24,7 +24,7 @@ const mapState = (state, ownprops) => {
 const mapDispatch = dispatch => {
     return {
         processForm: formData => dispatch(createTransaction(formData)),
-        checkPrice: ticker => dispatch(getLastPrices([ticker])),
+        checkPrices: tickers => dispatch(getLastPrices(tickers)),
         clearPrices: () => dispatch(clearPrices()),
         getUpdatedUser: () => dispatch(getUpdatedUser())
     }

@@ -14,6 +14,7 @@ class Api::TransactionsController < ApplicationController
     @stock = Stock.find_by(ticker: params["transaction"]["stock_id"]) || Stock.create!(ticker: params["transaction"]["stock_id"])
     @transaction = Transaction.new(transaction_params)
 
+    debugger
 
     if @transaction.save
       new_balance = current_user.balance - (@transaction.price * @transaction.quantity).round(2)

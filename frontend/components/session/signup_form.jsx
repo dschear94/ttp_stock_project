@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 class SignupForm extends React.Component {
     constructor(props) {
@@ -92,7 +91,7 @@ class SignupForm extends React.Component {
                                 type="text"
                                 value={this.state.name}
                                 onChange={this.update("name")}
-                                placeholder="name"
+                                placeholder="Name"
                             />
                             {nameError}
                         </label>
@@ -114,7 +113,7 @@ class SignupForm extends React.Component {
                                 type="password"
                                 value={this.state.password}
                                 onChange={this.update("password")}
-                                placeholder="Password (min. 10 characters)"
+                                placeholder="Password (min. 6 characters)"
                             />
                             {passwordError}
                         </label>

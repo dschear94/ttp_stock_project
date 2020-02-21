@@ -1,70 +1,66 @@
 import React from "react";
 import StockItem from './stock_item';
+import TransactionForm from './transaction_form';
 
 class Portfolio extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            userId: this.props.userId,
-            ticker: "",
-            currentPrice: "$0.00",
-            balance: this.props.balance,
-            quantity: 0,
-            time: null,
             errors: this.props.errors
         }
 
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePriceCheck = this.handlePriceCheck.bind(this);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidMount() {
+        
+        const { stockInfo, checkPrices, balance } = this.props;
+        const { currentPrice, quantity } = this.state;
 
-        let { stockInfo } = this.props;
-        let { ticker } = this.state;
 
-        if (ticker.toUpperCase() in stockInfo) {
-            // debugger
-            if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2) !== this.state.currentPrice) {
-                this.setState({
-                    currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
-                    time: Date.now()
-                })
+        // iterate through user's transactions to determine stock holdings
+
+        let portfolio = {};
+
+        this.props.transactions.forEach(transaction => {
+            let ticker = transaction.stock_id;
+            let quantity = parseInt(transaction.quantity);
+            if (ticker in portfolio) {
+                portfolio[ticker] += quantity;
+            } else {
+                portfolio[ticker] = quantity;
             }
-        }
+        });
+        
+        this.props.checkPrices(Object.keys(portfolio))
+
+
     }
+
+
+    // componentDidUpdate(prevProps) {
+
+    //     let { stockInfo } = this.props;
+    //     let { ticker } = this.state;
+
+    //     if (ticker.toUpperCase() in stockInfo) {
+    //         if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2) !== this.state.currentPrice) {
+    //             this.setState({
+    //                 currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
+    //                 time: Date.now()
+    //             })
+    //         }
+    //     }
+    // }
 
     componentWillUnmount() {
         this.props.clearPrices();
     }
 
-    handleSubmit(e) {
-        e.preventDefault()
-
-        let date = new Date().toLocaleDateString();
-        date = date.split("/");
-        let year = date.pop();
-        date.unshift(year);
-        date = date.join("-");
-
-        if (this.state.balance > (this.state.quantity * this.state.currentPrice)) {
-            this.props.processForm({
-                user_id: this.state.userId,
-                stock_id: this.state.ticker.toUpperCase(),
-                quantity: this.state.quantity,
-                price: this.state.currentPrice,
-                transaction_time: date
-            })
-                // .then(this.props.getUpdatedUser());
-        } else {
-            this.setState({ errors: "not enough funds!" })
-        }
-    }
-
     handlePriceCheck(e) {
         e.preventDefault()
-        this.props.checkPrice(this.state.ticker)
+        this.props.checkPrices(this.state.ticker)
     }
 
     update(field) {
@@ -74,8 +70,22 @@ class Portfolio extends React.Component {
     }
 
     render() {
+
+        // handle errors
+
         let errors;
-        const {balance} = this.props;
+        this.state.errors ? 
+        errors = <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
+        : errors = null
+
+
+        // destructure vars from props and state for ease of use
+
+        const { stockInfo, checkPrices, balance, processForm, userId } = this.props;
+        const { currentPrice, quantity } = this.state;
+
+
+        // iterate through user's transactions to determine stock holdings
 
         let portfolio = {};
         
@@ -87,67 +97,47 @@ class Portfolio extends React.Component {
             } else {
                 portfolio[ticker] = quantity;
             }
-        })
+        });
+
+
+        // iterate through holdings to feed individual stock item components
 
         const tickers = Object.keys(portfolio);
 
-        const stockInfo = tickers.map(ticker => <StockItem
+        const portfolioItems = tickers.map(ticker => <StockItem
             key={ticker}
             ticker={ticker}
             quantity={portfolio[ticker]}
-            stockInfo={this.props.stockInfo}
-            checkPrice={this.props.checkPrice}/>
+            stockInfo={stockInfo}
+            checkPrices={checkPrices}/>
         );
 
-        const { currentPrice, quantity } = this.state;
 
-        if (this.state.errors) {
-            errors = (
-                <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
-            )
-        } else {
-            errors = null
-        }
+        // calculate portfolioValue
+
+        let portfolioValue = 0;
+
+        tickers.forEach(ticker => {
+            let quantity = portfolio[ticker];
+            stockInfo[ticker] !== undefined ? 
+                portfolioValue += parseFloat((quantity * stockInfo[ticker].latestPrice).toFixed(2))
+            : 0;
+        })
 
         return (
 
-            <div className='stock-submit-page'>
-                <div>
-                    <h1>Portfolio</h1>
-                    <h2>Balance: ${balance.toFixed(2)}</h2>
+                <div className="portfolio-page">
+                    <h1>Portfolio (${portfolioValue})</h1>
                     <div className='portfolio-container'>
-                        {stockInfo}
+                        {portfolioItems}
                     </div>
+                    <TransactionForm 
+                    balance={balance} 
+                    stockInfo={stockInfo} 
+                    checkPrices={checkPrices} 
+                    processForm={processForm}
+                    userId={userId}/>
                 </div>
-                <main className='stock-submit-form-container'>
-                    <form onSubmit={this.handleSubmit} className='stock-submit-form'>
-
-                        <h1 className='stock-submit-heading'>Buy Stocks</h1>
-
-                        <label className='stock-submit-label'>
-                            <div className='label-text'>Ticker</div>
-                            <input className='input' type="text" value={this.state.ticker} onChange={this.update("ticker")} required />
-                        </label>
-                        <div className='stock-submit-buttons'>
-                            <input className="stock-submit-button" type="submit" value="Check Price" onClick={this.handlePriceCheck}/>
-                        </div>
-                        Price: ${currentPrice}
-                        <label className='stock-submit-label'>
-                            <div className='label-text'>Quantity</div>
-                            <input className="input" type="number" min="0" step="1" value={this.state.quantity} onChange={this.update("quantity")} required />
-                        </label>
-                        Projected Cost: ${
-                            isNaN(currentPrice * quantity) ? "0.00" :
-                            (currentPrice * quantity).toFixed(2)
-                        }
-                        {errors}
-                        <div className='stock-submit-buttons'>
-                            <input className="stock-submit-button" type="submit" value="Submit" />
-                        </div>
-                    </form>
-                </main>
-            </div>
-
         )
     }
 
