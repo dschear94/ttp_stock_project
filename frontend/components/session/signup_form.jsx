@@ -84,6 +84,7 @@ class SignupForm extends React.Component {
                     <div className="signup-header">
                         Signup
                     </div>
+                    <br/>
                     <div className="signup-component">
                         <label>
                             <input

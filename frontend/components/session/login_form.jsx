@@ -45,32 +45,28 @@ class LoginForm extends React.Component {
         }
 
         return (
+            <main className='login-form-container'>
+                <form onSubmit={this.handleSubmit} className='login-form'>
 
-            <div className='login-page'>
-                <div className='login-img-container'>
-                </div>
-                <main className='login-form-container'>
-                    <form onSubmit={this.handleSubmit} className='login-form'>
-
-                        <h1 className='login-heading'>Welcome</h1>
-
-                        <label className='login-label'>
-                            <div className='label-text'>Email</div>
-                            <input className='input' type="text" value={this.state.email} onChange={this.update("email")} required />
-                        </label>
-                        <label className='login-label'>
-                            <div className='label-text'>Password</div>
-                            <input className="input" type="password" value={this.state.password} onChange={this.update("password")} required />
-                        </label>
-                        {errors}
-                        <div className='login-buttons'>
-                            <input className="login-button" type="submit" value="Sign In" />
-                            <input className="login-button" type="submit" value=" Demo " onClick={this.demoLogin} />
-                        </div>
-                    </form>
-                </main>
-            </div>
-
+                    <h1 className='login-header'>Welcome Back</h1>
+                    <br/>
+                    <label className='login-label'>
+                        <div className='label-text'>Email</div>
+                        <input className='input' type="text" value={this.state.email} onChange={this.update("email")} required />
+                    </label>
+                    <br/>
+                    <label className='login-label'>
+                        <div className='label-text'>Password</div>
+                        <input className="input" type="password" value={this.state.password} onChange={this.update("password")} required />
+                    </label>
+                    {errors}
+                    <br/>
+                    <div className='login-buttons'>
+                        <input className="login-button" type="submit" value="Sign In" />
+                        <input className="login-button" type="submit" value=" Demo " onClick={this.demoLogin} />
+                    </div>
+                </form>
+            </main>
         )
     }
 
