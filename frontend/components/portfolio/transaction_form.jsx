@@ -12,6 +12,7 @@ class TransactionForm extends React.Component {
             balance: this.props.balance,
             quantity: 0,
             time: null,
+            errors: ""
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,12 +21,27 @@ class TransactionForm extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.latestPrice.toFixed(2) !== this.state.currentPrice) {
+        if (this.props.latestPrice.price.toFixed(2) !== this.state.currentPrice) {
             this.setState({
-                currentPrice: this.props.latestPrice.toFixed(2),
+                currentPrice: this.props.latestPrice.price.toFixed(2),
                 time: Date.now()
             })
         }
+
+        if (this.state.errors === "Must request new quote" && 
+            this.state.ticker.toUpperCase() === this.props.latestPrice.ticker) {
+            this.setState({
+                errors: ""
+            })
+        }
+
+        if (this.state.errors === "Must order 1 or more shares" && 
+            parseInt(this.state.quantity) > 0) {
+            this.setState({
+                errors: ""
+            })
+        }
+
     }
 
     componentWillUnmount() {
@@ -35,7 +51,20 @@ class TransactionForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
 
+        // check if form ticker matches quoted ticker
 
+        if (this.props.latestPrice.ticker !== this.state.ticker.toUpperCase()) {
+            return this.setState({
+                errors: "Must request new quote"
+            })
+        }
+        // check if quantity > 0
+
+        if (parseInt(this.state.quantity) === 0) {
+            return this.setState({
+                errors: "Must order 1 or more shares"
+            })
+        }
 
         // create date string
 
@@ -46,7 +75,7 @@ class TransactionForm extends React.Component {
         date = date.join("-");
 
         
-        // send form data to backend
+        // send form data to backend, redirect to transactions page upon success
 
         this.props.processForm({
             user_id: this.props.userId,
@@ -78,10 +107,9 @@ class TransactionForm extends React.Component {
         // handle errors
 
         let errors;
-        this.props.errors.length !== 0 ?
-            errors = <h3 className='stock-submit-errors'>{this.props.errors}</h3>
+        this.props.errors.length !== 0 || this.state.errors.length !== 0 ?
+            errors = <h3 className='stock-submit-errors'>{this.props.errors}{this.state.errors}</h3>
             : errors = null
-
 
         // destructure vars for ease of use
 

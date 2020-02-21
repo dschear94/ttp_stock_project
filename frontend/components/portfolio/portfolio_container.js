@@ -14,7 +14,10 @@ const mapState = (state, ownprops) => {
     const balance = state.entities.user.balance;
     const userId = state.entities.user.id;
     const transactions = state.entities.user.transactions;
-    const latestPrice = state.entities.latestPrice;
+    const latestPrice = Object.keys(state.entities.latestPrice).length === 0 ? {
+        ticker: "",
+        price: 0
+    } : state.entities.latestPrice;
 
     return {
         userId: userId,
