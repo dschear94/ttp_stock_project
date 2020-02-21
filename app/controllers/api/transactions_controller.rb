@@ -13,15 +13,20 @@ class Api::TransactionsController < ApplicationController
   def create
     @stock = Stock.find_by(ticker: params["transaction"]["stock_id"]) || Stock.create!(ticker: params["transaction"]["stock_id"])
     @transaction = Transaction.new(transaction_params)
+    
+    if current_user.balance > (@transaction.price * @transaction.quantity).round(2)
 
-    debugger
+      if @transaction.save
+        new_balance = current_user.balance - (@transaction.price * @transaction.quantity).round(2)
+        current_user.update_attributes(balance: new_balance)
+        render "/api/transactions/show"
+      else
+        render json: ["Invalid transaction"], status: 406
 
-    if @transaction.save
-      new_balance = current_user.balance - (@transaction.price * @transaction.quantity).round(2)
-      current_user.update_attributes(balance: new_balance)
-      render "/api/transactions/show"
+      end
+
     else
-      render json: ["Invalid transaction"], status: 406
+      render json: ["Insufficient Funds"], status: 406
 
     end
 

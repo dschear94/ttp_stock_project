@@ -27,6 +27,7 @@ class SignupForm extends React.Component {
     handleClick() {
         this.props.clearErrors();
     }
+    
     render() {
         let nameError = null;
         let emailError = null;

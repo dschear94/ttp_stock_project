@@ -10,12 +10,14 @@ class StockItem extends React.Component {
 
         const prevPrice = stockInfo[ticker] !== undefined ? stockInfo[ticker].previousClose.toFixed(2) : null;
         const latestPrice = stockInfo[ticker] !== undefined ? stockInfo[ticker].latestPrice.toFixed(2) : null;
+        const name = stockInfo[ticker] !== undefined ? stockInfo[ticker].companyName : null;
+
 
         const latestValue = (latestPrice * quantity).toFixed(2);
 
         return (
             <div>
-                <h2>{ticker} - {quantity} shares          ${latestValue}</h2>
+                <h2>{ticker} ({name}) - {quantity} shares @ ${latestPrice} each totaling ${latestValue}</h2>
             </div>
         )
     }

@@ -16,6 +16,7 @@ class TransactionForm extends React.Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePriceCheck = this.handlePriceCheck.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -52,7 +53,7 @@ class TransactionForm extends React.Component {
         date.unshift(year);
         date = date.join("-");
 
-        if (this.state.balance > (this.state.quantity * this.state.currentPrice)) {
+        // if (this.state.balance > (this.state.quantity * this.state.currentPrice)) {
             this.props.processForm({
                 user_id: this.props.userId,
                 stock_id: this.state.ticker.toUpperCase(),
@@ -60,9 +61,9 @@ class TransactionForm extends React.Component {
                 price: this.state.currentPrice,
                 transaction_time: date
             })
-        } else {
-            this.setState({ errors: "not enough funds!" })
-        }
+        // } else {
+        //     this.setState({ errors: "not enough funds." })
+        // }
     }
 
     handlePriceCheck(e) {
@@ -76,14 +77,23 @@ class TransactionForm extends React.Component {
         )
     }
 
+    handleClick() {
+        this.props.clearErrors();
+    }
+
     render() {
 
         // handle errors
 
         let errors;
-        this.state.errors ?
-            errors = <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
-            : errors = null
+        this.props.errors.length !== 0 ?
+            errors = <h3 className='stock-submit-errors'> ERROR!  {this.props.errors}</h3>
+            : this.state.errors.length !== 0 ?
+                errors = <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
+                : errors = null
+
+
+        // destructure vars for ease of use
 
         const { balance } = this.props;
         const { currentPrice, quantity } = this.state;
@@ -99,7 +109,7 @@ class TransactionForm extends React.Component {
                         <h3>CASH - ${balance.toFixed(2)}</h3>
                         <label className='stock-submit-label'>
                             <div className='label-text'>Ticker</div>
-                            <input className='input' type="text" value={this.state.ticker} onChange={this.update("ticker")} required />
+                            <input className='input' type="text" value={this.state.ticker} onClick={this.handleClick} onChange={this.update("ticker")} required />
                         </label>
                         <div className='stock-submit-buttons'>
                             <input className="stock-submit-button" type="submit" value="Get Latest Quote" onClick={this.handlePriceCheck} />
@@ -107,7 +117,7 @@ class TransactionForm extends React.Component {
                         Price: ${currentPrice}
                         <label className='stock-submit-label'>
                             <div className='label-text'>Quantity</div>
-                            <input className="input" type="number" min="0" step="1" value={this.state.quantity} onChange={this.update("quantity")} required />
+                            <input className="input" type="number" min="0" step="1" value={this.state.quantity} onClick={this.handleClick} onChange={this.update("quantity")} required />
                         </label>
                         Projected Cost: ${
                             isNaN(currentPrice * quantity) ? "0.00" :

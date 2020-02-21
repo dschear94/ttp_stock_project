@@ -72,15 +72,15 @@ class Portfolio extends React.Component {
 
         // handle errors
 
-        let errors;
+        let errorHandling;
         this.state.errors ? 
-        errors = <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
-        : errors = null
+        errorHandling = <h3 className='stock-submit-errors'> ERROR!  {this.state.errors}</h3>
+        : errorHandling = null
 
 
         // destructure vars from props and state for ease of use
 
-        const { stockInfo, checkPrice, latestPrice, checkPrices, clearPrices, balance, processForm, userId } = this.props;
+        const { stockInfo, checkPrice, latestPrice, checkPrices, clearPrices, clearErrors, balance, processForm, userId, errors } = this.props;
         const { currentPrice, quantity } = this.state;
 
 
@@ -139,7 +139,9 @@ class Portfolio extends React.Component {
                     clearPrices={clearPrices} 
                     processForm={processForm}
                     latestPrice={latestPrice}
-                    userId={userId}/>
+                    userId={userId}
+                    errors={errors}
+                    clearErrors={clearErrors}/>
 
                 </div>
         )

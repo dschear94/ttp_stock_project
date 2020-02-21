@@ -1,5 +1,5 @@
 import {
-    RECEIVE_SESSION_ERRORS,
+    RECEIVE_SESSION_ERRORS, CLEAR_ERRORS,
 } from '../actions/session_actions';
 
 export default (state = [], action) => {
@@ -7,6 +7,8 @@ export default (state = [], action) => {
     switch (action.type) {
         case RECEIVE_SESSION_ERRORS:
             return action.errors || state;
+        case CLEAR_ERRORS:
+            return [];
         default:
             return state;
     }
