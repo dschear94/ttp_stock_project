@@ -9,12 +9,15 @@ const usersReducer = (state = {}, action) => {
         case RECEIVE_CURRENT_USER:
             return action.currentUser ;
         case RECEIVE_UPDATED_USER:
+            debugger
             return action.updatedUser ;
         case LOGOUT_CURRENT_USER:
             return {};
         case RECEIVE_TRANSACTION:
             const newState = merge({}, state);
-                newState.balance -= (action.transactionData.quantity * parseFloat(action.transactionData.price));
+            newState.transactions.push(action.transactionData)
+            newState.balance -= (action.transactionData.quantity * parseFloat(action.transactionData.price));
+            
             return newState;
         default:
             return state;

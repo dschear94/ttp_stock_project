@@ -21,17 +21,18 @@ class Portfolio extends React.Component {
 
     componentDidUpdate(prevProps) {
 
+        let { stockInfo } = this.props;
+        let { ticker } = this.state;
 
-        // if (ticker.toUpperCase() in stockInfo) {
-        //     // debugger
-        //     if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice !== prevProps.stockInfo[ticker.toUpperCase()].latestPrice) {
-        //         debugger
-        //         this.setState({
-        //             currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
-        //             time: Date.now()
-        //         })
-        //     }
-        // }
+        if (ticker.toUpperCase() in stockInfo) {
+            // debugger
+            if (prevProps.stockInfo[ticker.toUpperCase()] === undefined || stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2) !== this.state.currentPrice) {
+                this.setState({
+                    currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
+                    time: Date.now()
+                })
+            }
+        }
     }
 
     componentWillUnmount() {
@@ -54,21 +55,16 @@ class Portfolio extends React.Component {
                 quantity: this.state.quantity,
                 price: this.state.currentPrice,
                 transaction_time: date
-            }).then(this.props.getUpdatedUser());
+            })
+                // .then(this.props.getUpdatedUser());
         } else {
             this.setState({ errors: "not enough funds!" })
         }
     }
 
     handlePriceCheck(e) {
-        let { stockInfo } = this.props;
-        let { ticker } = this.state;
-        
         e.preventDefault()
-        this.props.checkPrice(this.state.ticker).then(this.setState({
-            currentPrice: stockInfo[ticker.toUpperCase()].latestPrice.toFixed(2),
-            time: Date.now()
-        }));
+        this.props.checkPrice(this.state.ticker)
     }
 
     update(field) {
@@ -79,9 +75,10 @@ class Portfolio extends React.Component {
 
     render() {
         let errors;
+        const {balance} = this.props;
 
         let portfolio = {};
-
+        
         this.props.transactions.forEach(transaction => {
             let ticker = transaction.stock_id;
             let quantity = parseInt(transaction.quantity);
@@ -93,15 +90,13 @@ class Portfolio extends React.Component {
         })
 
         const tickers = Object.keys(portfolio);
-        // console.log(tickers);
 
-        const stockInfo = tickers.map(ticker => {
-        return (<StockItem
+        const stockInfo = tickers.map(ticker => <StockItem
             key={ticker}
             ticker={ticker}
             quantity={portfolio[ticker]}
-            checkPrice={this.props.checkPrice}
-        />)}
+            stockInfo={this.props.stockInfo}
+            checkPrice={this.props.checkPrice}/>
         );
 
         const { currentPrice, quantity } = this.state;
@@ -119,6 +114,7 @@ class Portfolio extends React.Component {
             <div className='stock-submit-page'>
                 <div>
                     <h1>Portfolio</h1>
+                    <h2>Balance: ${balance}</h2>
                     <div className='portfolio-container'>
                         {stockInfo}
                     </div>
