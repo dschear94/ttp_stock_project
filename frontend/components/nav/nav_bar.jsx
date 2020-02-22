@@ -36,10 +36,10 @@ class Navbar extends React.Component {
                     </div>
                     <div className="nav-container-right">
                         <div className="nav-link-wrapper">
-                            <NavLink className="nav-link" activeStyle={{ backgroundColor: "rgb(32, 32, 32)" }} to="/portfolio">Portfolio</NavLink>
+                            {currentUser.id ? <NavLink className="nav-link" activeStyle={{ backgroundColor: "rgb(32, 32, 32)" }} to="/portfolio">Portfolio</NavLink> : null}
                         </div>
                         <div className="nav-link-wrapper">
-                            <NavLink className="nav-link" activeStyle={{ backgroundColor: "rgb(32, 32, 32)" }} to="/transactions">Transactions</NavLink>
+                            {currentUser.id ? <NavLink className="nav-link" activeStyle={{ backgroundColor: "rgb(32, 32, 32)" }} to="/transactions">Transactions</NavLink> : null}
                         </div>                       
                         <div className="nav-link-wrapper">
                             {logout}
