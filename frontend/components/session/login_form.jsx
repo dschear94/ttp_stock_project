@@ -4,13 +4,15 @@ import { withRouter } from 'react-router-dom';
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this)
+        
         this.state = {
             email: "",
             password: ""
         }
-
+        
+        this.handleSubmit = this.handleSubmit.bind(this)
         this.demoLogin = this.demoLogin.bind(this)
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleSubmit(e) {
@@ -34,6 +36,11 @@ class LoginForm extends React.Component {
 
     }
 
+
+    handleClick() {
+        this.props.clearErrors();
+    }
+
     render() {
         let errors;
         if (this.props.errors.length !== 0) {
@@ -52,13 +59,14 @@ class LoginForm extends React.Component {
                     <br/>
                     <label className='login-label'>
                         <div className='label-text'>Email</div>
-                        <input className='input' type="text" value={this.state.email} onChange={this.update("email")} required />
+                        <input className='input' type="text" value={this.state.email} onClick={this.handleClick} onChange={this.update("email")} required />
                     </label>
                     <br/>
                     <label className='login-label'>
                         <div className='label-text'>Password</div>
-                        <input className="input" type="password" value={this.state.password} onChange={this.update("password")} required />
+                        <input className="input" type="password" value={this.state.password} onClick={this.handleClick} onChange={this.update("password")} required />
                     </label>
+                    <br/>
                     {errors}
                     <br/>
                     <div className='login-buttons'>

@@ -3,12 +3,14 @@ import React from "react";
 class SignupForm extends React.Component {
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
+
         this.state = {
             name: "",
             email: "",
             password: ""
         };
+        
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
     componentWillUnmount() {
