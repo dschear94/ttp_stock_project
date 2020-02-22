@@ -16,11 +16,6 @@ span, article, footer, time, small {
   background: transparent;
 }
 
-body {
-  font: 12px/1.4 "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Garuda,Verdana,Tahoma,sans-serif;
-  background-color: #f2f2f2;
-}
-
 ul {
   list-style: none;
 }

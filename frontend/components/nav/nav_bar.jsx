@@ -21,7 +21,8 @@ class Navbar extends React.Component {
         let { currentUser } = this.props;
 
         const logout = currentUser.id ? (
-            <button onClick={this.handleLogout}>
+            <button onClick={this.handleLogout}
+            className="logout-button">
                 logout
             </button>
         ) : null;
@@ -29,12 +30,21 @@ class Navbar extends React.Component {
             return (
                 <div className="nav-container">
                     <div className="nav-container-left">
-                        <Link to="/">TTP Stock App</Link>
+                        <div className="nav-link-wrapper">
+                            <Link className="nav-link-home" to="/">TTP Stock App</Link>
+                        </div>
                     </div>
                     <div className="nav-container-right">
-                        <NavLink to="/portfolio">Portfolio</NavLink>
-                        <NavLink to="/transactions">Transactions</NavLink>
-                        {logout}
+                        <div className="nav-link-wrapper">
+                            <NavLink className="nav-link" activeStyle={{ backgroundColor: "rgb(32, 32, 32)" }} to="/portfolio">Portfolio</NavLink>
+                        </div>
+                        <div className="nav-link-wrapper">
+                            <NavLink className="nav-link" activeStyle={{ backgroundColor: "rgb(32, 32, 32)" }} to="/transactions">Transactions</NavLink>
+                        </div>                       
+                        <div className="nav-link-wrapper">
+                            {logout}
+                        </div> 
+                        
                     </div>
                 </div>
             )

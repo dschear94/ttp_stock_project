@@ -1,0 +1,18 @@
+.transactions-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color: transparent;
+}
+
+.transactions-header {
+    margin: 20px;
+    font-size: 30px;
+}
+
+.transaction-item {
+    font-size: 20px;
+    margin-bottom: 10px;
+}

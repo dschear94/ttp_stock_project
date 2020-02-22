@@ -1,0 +1,75 @@
+.nav-container {
+    background-color: rgb(71, 71, 71);
+    color: white;
+    height: 46px;
+    width: 100%;
+    display: block;
+}
+
+.nav-container-left {
+    float: left;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.nav-container-right {
+    float: right;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.nav-link-wrapper {
+    float: left;
+    display: block;
+    height: 46px;
+}
+
+.nav-link {
+    display: block;
+    padding: 12px 0;
+    width: 130px;
+    height: 46px;
+    border-right: 1px solid #111;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    visibility: visible;
+}
+.nav-link:hover {
+    background-color: rgb(48, 48, 48);
+}
+
+.nav-link-home {
+    display: block;
+    padding: 12px 0;
+    width: 140px;
+    height: 46px;
+    border-right: 1px solid #111;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    visibility: visible;
+    border-left: 1px solid #111;
+}
+
+.logout-button {
+    display: block;
+    padding: 12px 0;
+    width: 104px;
+    height: 46px;
+    border-right: 1px solid #111;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    visibility: visible;
+    background-color: rgb(0, 3, 177);
+}
+
+.logout-button:hover {
+    background-color: rgb(0, 4, 255);
+}
